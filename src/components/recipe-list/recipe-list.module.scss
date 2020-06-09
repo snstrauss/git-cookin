@@ -1,7 +1,17 @@
 .container {
     border: 4px solid red;
 
-    .item {
-        border: 1px solid blue;
+    .listContainer {
+        // border: 3px solid deeppink;
+        height: 100%;
+        &.hide {
+            height: 0;
+            // border: 3px solid deepskyblue;
+        }
+
+        .item {
+            border: 1px solid blue;
+        }
     }
+
 }
