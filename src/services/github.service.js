@@ -6,15 +6,42 @@ const headers = new Headers();
 headers.append("Accept", "application/vnd.github.v3+json");
 headers.append("Authorization", `token ${process.env.REACT_APP_GITHUB_TOKEN}`);
 
-export function getFilesContent({ owner = 'snstrauss', repository = 'git-cookin-db', path = '' }){
-    return fetch(`${BASE_URL}/repos/${owner}/${repository}/contents/recipes/${path}`, {
+function buildRequestUrl({ owner = 'snstrauss', repository = 'git-cookin-db', path = '' }){
+
+    return `${BASE_URL}/repos/${owner}/${repository}/contents/recipes/${path}`;
+}
+
+function getFilesContent(requestParams){
+    return fetch(buildRequestUrl(requestParams), {
         headers
     }).then((response) => response.json());
 }
 
+export function addFileToRepository(requestParams){
+
+    const user = requestParams.path.match(/.+?(?=\/)/)[0];
+    const content = btoa(JSON.stringify(requestParams.data));
+
+    const body = JSON.stringify({
+        message: `user ${user} added recipe at ${requestParams.path}`,
+        committer: {
+            name: 'snstrauss',
+            email: 'zahavi.guy.85@gmail.com'
+        },
+        content
+    });
+
+    return fetch(buildRequestUrl(requestParams), {
+        method: 'PUT',
+        headers,
+        body
+    }).then(res => res.json())
+    .then(response => {
+        return response;
+    });
+}
 
 export function getRecipesList(){
-
     return getFilesContent({
         path: '',
     }).then(mapRecipeList);
@@ -38,5 +65,7 @@ function parseFileContent(fileData){
 }
 
 export default {
-    getFilesContent
+    getRecipesList,
+    getRecipeData,
+    addFileToRepository
 }
