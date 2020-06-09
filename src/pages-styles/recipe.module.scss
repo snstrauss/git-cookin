@@ -1,0 +1,16 @@
+.container {
+    border: 4px solid darkblue;
+
+    .title {
+        color: red;
+        font-size: 40px;
+    }
+
+    .ingredients {
+        border: 1px solid green;
+    }
+
+    .instructions {
+        border: 1px solid deeppink;
+    }
+}
