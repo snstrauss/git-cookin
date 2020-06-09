@@ -1,23 +1,53 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 
 import S from './recipe-list.module.scss';
 import { fileNameToTitle } from '../../services/utils.service';
-import { getRecipesList } from '../../services/github.service';
+import { getRecipesList, addFileToRepository } from '../../services/github.service';
 import Recipe from '../recipe/recipe';
+import { UserContext } from '../../app';
 
-export default function RecipeList({ currentUser }){
+export default function RecipeList(){
 
     const [recipeList, setRecipeList] = useState();
     const [selectedRecipe, setSelectedRecipe] = useState();
 
+    const { currentUser } = useContext(UserContext);
+
     useEffect(() => {
+        setRecipeList();
+
         getRecipesList(currentUser)
         .then(setRecipeList)
 
     }, [currentUser])
 
+    function addRecipe(){
+
+        addFileToRepository({
+            path: `${currentUser}/newRecipeName.json`,
+            data: {
+                ingrediants: [
+                    {
+                        name: "thing",
+                        amount: 12,
+                        unit: 'Kg'
+                    }
+                ],
+                instructions: [
+                    'do thing'
+                ]
+            }
+        }).catch((err) => {
+
+            console.log(err);
+            debugger;
+
+        })
+    }
+
     return (
         <div className={S.container}>
+            <button onClick={addRecipe}>ADD +</button>
             {
                 recipeList
                 ?

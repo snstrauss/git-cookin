@@ -1,15 +1,17 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import S from './recipe.module.scss';
 
 import { fileNameToTitle } from '../../services/utils.service';
 import { getRecipeData } from '../../services/github.service';
-
+import { UserContext } from '../../app';
 
 export default function Recipe({ name, goBack }){
 
     const [{ ingredients, instructions }, setRecipeData] = useState({});
     const [lastRecipeShown, setLastRecipe] = useState();
     const [gotData, setGotData] = useState(false);
+
+    const { currentUser } = useContext(UserContext);
 
     const needNewRecipeData = name !== lastRecipeShown;
 
@@ -26,7 +28,7 @@ export default function Recipe({ name, goBack }){
             window.history.pushState(name, name);
 
             if(needNewRecipeData){
-                getRecipeData(name)
+                getRecipeData(`${currentUser}/${name}`)
                 .then((recipeData) => {
                     setLastRecipe(name);
                     setRecipeData(recipeData);

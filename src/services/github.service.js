@@ -1,5 +1,4 @@
 "https://api.github.com/repos/snstrauss/git-cookin-db/contents/recipes"
-
 const BASE_URL = "https://api.github.com";
 
 const headers = new Headers();
@@ -41,9 +40,9 @@ export function addFileToRepository(requestParams){
     });
 }
 
-export function getRecipesList(){
+export function getRecipesList(userName){
     return getFilesContent({
-        path: '',
+        path: userName,
     }).then(mapRecipeList);
 }
 
