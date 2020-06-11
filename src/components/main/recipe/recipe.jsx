@@ -1,9 +1,9 @@
 import React, { useEffect, useState, useContext } from 'react';
 import S from './recipe.module.scss';
 
-import { fileNameToTitle } from '../../services/utils.service';
-import { getRecipeData } from '../../services/github.service';
-import { UserContext } from '../../app';
+import { fileNameToTitle } from '../../../services/utils.service';
+import { getRecipeData } from '../../../services/github.service';
+import { UserContext } from '../../../contexts/userContext/userContext';
 
 export default function Recipe({ name, goBack }){
 
