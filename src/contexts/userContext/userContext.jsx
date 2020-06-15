@@ -1,23 +1,10 @@
-import React, { useState, createContext, useEffect, useContext, useCallback } from 'react';
-import { LayoutContext } from '../../components/main/layout/layout';
+import React, { useState, createContext, useEffect, useCallback } from 'react';
 
 export const UserContext = createContext();
 
 export default function UserContextGiver({ children }){
 
     const [currentUser, setCurrentUser] = useState();
-
-    const context = {
-        logout(){
-            keepAndSetUsername();
-        },
-        login(username){
-            keepAndSetUsername(username);
-        },
-        get currentUser(){
-            return currentUser;
-        }
-    };
 
     const keepAndSetUsername = useCallback((username) => {
         if(username){
@@ -29,11 +16,21 @@ export default function UserContextGiver({ children }){
 
     }, [setCurrentUser]);
 
+    const context = {
+        logout(){
+            keepAndSetUsername();
+        },
+        login: keepAndSetUsername,
+        get currentUser(){
+            return currentUser;
+        }
+    };
+
     useEffect(() => {
         const currentUsername = localStorage.currentUser;
 
         if(currentUsername){
-            context.login(currentUsername);
+            keepAndSetUsername(currentUsername);
         }
     }, [keepAndSetUsername]);
 
