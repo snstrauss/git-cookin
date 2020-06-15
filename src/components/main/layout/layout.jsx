@@ -3,6 +3,7 @@ import S from './layout.module.scss';
 import Header from '../../partials/header/header';
 import { UserContext } from '../../../contexts/userContext/userContext';
 import Login from '../../partials/login/login';
+import Footer from '../../partials/footer/footer';
 
 export const LayoutContext = createContext();
 
@@ -29,7 +30,7 @@ export default function Layout({ children }){
                         <Login/>
                     }
                 </main>
-                <footer></footer>
+                <Footer/>
             </LayoutContext.Provider>
         </div>
     )
