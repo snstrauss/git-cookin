@@ -4,7 +4,7 @@ import S from './recipe-list.module.scss';
 import { fileNameToTitle } from '../../../services/utils.service';
 import { getRecipesList, addFileToRepository } from '../../../services/github.service';
 import Recipe from '../recipe/recipe';
-import Logout from '../../utils/login/logout';
+import Logout from '../../partials/login/logout';
 import { UserContext } from '../../../contexts/userContext/userContext';
 
 export default function RecipeList(){

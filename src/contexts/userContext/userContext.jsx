@@ -1,6 +1,6 @@
 import React, { useState, createContext, useEffect } from 'react';
-import Logout from '../../components/utils/login/logout';
-import Login from '../../components/utils/login/login';
+import Logout from '../../components/partials/login/logout';
+import Login from '../../components/partials/login/login';
 
 export const UserContext = createContext();
 
