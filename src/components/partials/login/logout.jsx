@@ -15,8 +15,8 @@ export default function Logout(){
     }
 
     return (
-        <div className={S.container} onClick={doLogout}>
+        <button className={S.container} onClick={doLogout}>
             <Iconify icon="ic-round-log-out" style={{transform: 'rotate(0.5turn)'}}/>
-        </div>
+        </button>
     )
 }
