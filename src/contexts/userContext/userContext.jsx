@@ -1,6 +1,5 @@
-import React, { useState, createContext, useEffect } from 'react';
-import Logout from '../../components/partials/login/logout';
-import Login from '../../components/partials/login/login';
+import React, { useState, createContext, useEffect, useContext, useCallback } from 'react';
+import { LayoutContext } from '../../components/main/layout/layout';
 
 export const UserContext = createContext();
 
@@ -12,40 +11,35 @@ export default function UserContextGiver({ children }){
         logout(){
             keepAndSetUsername();
         },
-        getCurrentUser(){
-            return currentUser
+        login(username){
+            keepAndSetUsername(username);
+        },
+        get currentUser(){
+            return currentUser;
         }
     };
 
-    useEffect(() => {
-        const currentUsername = localStorage.currentUser;
-
-        if(currentUsername){
-            keepAndSetUsername(currentUsername);
-        }
-    }, []);
-
-    function keepAndSetUsername(username){
+    const keepAndSetUsername = useCallback((username) => {
         if(username){
             localStorage.currentUser = username;
         } else {
             localStorage.removeItem('currentUser');
         }
         setCurrentUser(username);
-    }
+
+    }, [setCurrentUser]);
+
+    useEffect(() => {
+        const currentUsername = localStorage.currentUser;
+
+        if(currentUsername){
+            context.login(currentUsername);
+        }
+    }, [keepAndSetUsername]);
 
     return (
         <UserContext.Provider value={context}>
-            {
-                currentUser
-                ?
-                <>
-                    {children}
-                    <Logout/>
-                </>
-                :
-                <Login setUser={keepAndSetUsername}/>
-            }
+            {children}
         </UserContext.Provider>
     );
 }
