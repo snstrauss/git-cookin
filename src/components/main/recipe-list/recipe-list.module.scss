@@ -5,6 +5,7 @@
     .listContainer {
         // border: 3px solid deeppink;
         height: 100%;
+        overflow: hidden;
         &.hide {
             height: 0;
             // border: 3px solid deepskyblue;

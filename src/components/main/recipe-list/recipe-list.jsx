@@ -1,11 +1,11 @@
 import React, { useEffect, useState, useContext, useCallback } from 'react';
 
 import S from './recipe-list.module.scss';
-import { fileNameToTitle } from '../../../services/utils.service';
 import { getRecipesList, addFileToRepository } from '../../../services/github.service';
 import Recipe from '../recipe/recipe';
 import { UserContext } from '../../../contexts/userContext/userContext';
 import { LayoutContext } from '../layout/layout';
+import RecipeListItem from './recipe-list-item/recipe-list-item';
 
 export default function RecipeList(){
 
@@ -60,21 +60,19 @@ export default function RecipeList(){
 
     return (
         <div className={S.container}>
-            <button className={S.addRecipe} onClick={addRecipe}>
-                <span>+</span>
-            </button>
+            {
+                !selectedRecipe &&
+                <button className={S.addRecipe} onClick={addRecipe}>
+                    <span>+</span>
+                </button>
+            }
             {
                 recipeList
                 ?
                 <div className={`${S.listContainer} ${selectedRecipe ? S.hide : ''}`}>
-                    <h2>Your Recipes</h2>
                     {
                         recipeList.map(({ name }, idx) => (
-                            <button onClick={() => setSelectedRecipe(name)} key={`${idx}. ${name}`}>
-                                <h3 className={S.item}>
-                                    {fileNameToTitle(name)}
-                                </h3>
-                            </button>
+                            <RecipeListItem key={`${name}-${idx}`} name={name} selectRecipe={setSelectedRecipe}/>
                         ))
                     }
                 </div>
