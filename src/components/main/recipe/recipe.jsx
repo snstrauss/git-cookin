@@ -4,6 +4,7 @@ import S from './recipe.module.scss';
 import { fileNameToTitle } from '../../../services/utils.service';
 import { getRecipeData } from '../../../services/github.service';
 import { UserContext } from '../../../contexts/userContext/userContext';
+import { LayoutContext } from '../layout/layout';
 
 export default function Recipe({ name, goBack }){
 
@@ -12,6 +13,7 @@ export default function Recipe({ name, goBack }){
     const [gotData, setGotData] = useState(false);
 
     const { currentUser } = useContext(UserContext);
+    const { setHeaderTitle } = useContext(LayoutContext);
 
     const needNewRecipeData = name !== lastRecipeShown;
 
@@ -19,7 +21,13 @@ export default function Recipe({ name, goBack }){
         window.onpopstate = function backToList(){
             goBack();
         }
-    }, [])
+    }, [goBack])
+
+    useEffect(() => {
+        if(name){
+            setHeaderTitle(name);
+        }
+    }, [name, setHeaderTitle])
 
     useEffect(() => {
         setGotData(false);
@@ -38,7 +46,7 @@ export default function Recipe({ name, goBack }){
             }
         }
 
-    }, [name, lastRecipeShown]);
+    }, [name, lastRecipeShown, needNewRecipeData, currentUser]);
 
     return (
         <div className={`${S.container} ${name ? '' : 'shown'}` }>
