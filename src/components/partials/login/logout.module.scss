@@ -1,8 +1,6 @@
 .container {
-    transform: rotate(0.5turn) scale(2.5);
+    transform: rotate(0.5turn) scale(2);
     color: #333;
-    position: fixed;
-    --dist: 7.5vw;
-    top: var(--dist);
-    left: var(--dist);
+    position: absolute;
+    left: 5%;
 }

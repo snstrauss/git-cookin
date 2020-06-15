@@ -1,15 +1,16 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import S from './header.module.scss';
 import Logout from '../login/logout';
+import { UserContext } from '../../../contexts/userContext/userContext';
 
-export default function Header({ title, isLoggedIn }){
+export default function Header({ title = "git cookin'!" }){
 
-    debugger;
+    const { currentUser } = useContext(UserContext);
 
     return (
         <header className={S.container}>
             {
-                isLoggedIn &&
+                currentUser &&
                 <Logout/>
             }
             <h2>{title}</h2>
