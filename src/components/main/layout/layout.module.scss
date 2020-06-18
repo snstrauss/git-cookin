@@ -6,7 +6,8 @@
     flex-direction: column;
 
     header, footer {
-        height: 7vh;
+        background-color: violet;
+        flex: 1;
     }
 
     header {
@@ -14,8 +15,9 @@
     }
 
     main {
-        flex: 1;
+        flex: 10;
         border: 2px solid blue;
+        overflow: hidden;
     }
 
     footer {
