@@ -6,6 +6,22 @@
 
     margin: 2vh;
 
+    color: #123;
+    background-color: #DDD;
+    background-size: cover;
+    background-position: center;
+
+    height: 200px;
+
+    position: relative;
+    h2 {
+        --dist: 5%;
+        margin: 0;
+        position: absolute;
+        bottom: var(--dist);
+        left: var(--dist);
+    }
+
     img {
         border: 2px solid blue;
 

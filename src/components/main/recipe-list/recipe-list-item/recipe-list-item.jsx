@@ -42,22 +42,22 @@ export default function RecipeListItem({ name, selectRecipe }){
             setDoneLooking(true);
         })
 
-    }, [currentUser, name])
+    }, [currentUser, name]);
+
+
+    const backgroundStyle = imageData ? {
+        backgroundImage: `url(${imageData})`,
+        color: 'white'
+    } : {};
 
     return (
         <>
             {
                 doneLookingForImage &&
-                <div className={S.container}>
-                    <button onClick={() => selectRecipe(name)}>
-                        {
-                            imageData &&
-                            <img src={imageData} alt={name}/>
-                        }
-                        <h3 className={S.item}>
-                            {fileNameToTitle(name)}
-                        </h3>
-                    </button>
+                <div className={S.container} style={backgroundStyle} onClick={() => selectRecipe(name)}>
+                    <h2 className={S.item}>
+                        {fileNameToTitle(name)}
+                    </h2>
                 </div>
             }
         </>
