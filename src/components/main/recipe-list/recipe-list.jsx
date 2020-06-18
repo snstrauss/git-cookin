@@ -20,14 +20,14 @@ export default function RecipeList(){
     }, [setSelectedRecipe]);
 
     useEffect(() => {
-        setRecipeList();
-
         if(!selectedRecipe){
             setHeaderTitle(`${currentUser}'s recipes`);
         }
 
-        getRecipesList(currentUser)
-        .then(setRecipeList)
+        if(!recipeList){
+            getRecipesList(currentUser)
+            .then(setRecipeList)
+        }
 
     }, [currentUser, setHeaderTitle, selectedRecipe])
 

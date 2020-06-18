@@ -2,29 +2,7 @@ import React, { useEffect, useContext, useState } from 'react';
 import S from './recipe-list-item.module.scss';
 import { fileNameToTitle } from '../../../../services/utils.service';
 import { UserContext } from '../../../../contexts/userContext/userContext';
-
-function buildImageUrl(currentUser, name){
-    return `https://raw.githubusercontent.com/snstrauss/git-cookin-db/master/images/${currentUser}/${fileNameToTitle(name).toLowerCase()}.jpg`;
-}
-
-function getDataUrlFromImageUrl(currentUser, name){
-    return fetch(buildImageUrl(currentUser, name))
-    .then(res => {
-        if(!res.ok){
-            throw new Error('no image');
-        }
-        return res.blob();
-
-    }).then(blobData => {
-        return new Promise((resolve, reject) => {
-            const reader = new FileReader();
-            reader.onload = (ev) => {
-                resolve(ev.target.result)
-            };
-            reader.readAsDataURL(blobData);
-        });
-    }).catch(() => {});
-}
+import { getDataUrlFromImageUrl } from '../../../../services/github.service';
 
 export default function RecipeListItem({ name, selectRecipe }){
 

@@ -1,5 +1,10 @@
 "https://api.github.com/repos/snstrauss/git-cookin-db/contents/recipes"
+
+import { fileNameToTitle } from "./utils.service";
+
 const BASE_URL = "https://api.github.com";
+
+const requestsCache = {};
 
 const headers = new Headers();
 headers.append("Accept", "application/vnd.github.v3+json");
@@ -47,9 +52,13 @@ export function getRecipesList(userName){
 }
 
 export function getRecipeData(path){
-    return getFilesContent({
-        path
-    }).then(parseFileContent);
+    if(!requestsCache[path]){
+        requestsCache[path] = getFilesContent({
+            path
+        }).then(parseFileContent);
+    }
+
+    return requestsCache[path];
 }
 
 function mapRecipeList(recipes){
@@ -63,8 +72,32 @@ function parseFileContent(fileData){
     return JSON.parse(atob(fileData.content));
 }
 
+function buildImageUrl(currentUser, name){
+    return `https://raw.githubusercontent.com/snstrauss/git-cookin-db/master/images/${currentUser}/${fileNameToTitle(name).toLowerCase()}.jpg`;
+}
+
+export function getDataUrlFromImageUrl(currentUser, name){
+    return fetch(buildImageUrl(currentUser, name))
+    .then(res => {
+        if(!res.ok){
+            throw new Error('no image');
+        }
+        return res.blob();
+
+    }).then(blobData => {
+        return new Promise((resolve, reject) => {
+            const reader = new FileReader();
+            reader.onload = (ev) => {
+                resolve(ev.target.result)
+            };
+            reader.readAsDataURL(blobData);
+        });
+    }).catch(() => {});
+}
+
 export default {
     getRecipesList,
     getRecipeData,
+    getDataUrlFromImageUrl,
     addFileToRepository
 }
